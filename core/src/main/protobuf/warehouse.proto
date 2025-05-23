@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package warehouse_messages;
+
+/*"meta": {
+    "isLocalEvent": false,
+    "tags": [
+      "Composition",
+      "Composition:warehouse-factory"
+    ],
+    "timestampMicros": 1747990971813688,
+    "lamport": 11,
+    "appId": "com.example.car-factory",
+    "eventId": "0000000000000011/e0/rCannphYiaOQW4aQFeqE.SbHbplsf3mzyQP6DYkk-0",
+    "stream": "e0/rCannphYiaOQW4aQFeqE.SbHbplsf3mzyQP6DYkk-0",
+    "offset": 11
+}*/
+
+message Meta {
+  bool isLocalEvent = 1;
+  repeated string tags = 2;
+  uint64 timestampMicros = 3;
+  uint32 lamport = 4;
+  string appId = 5;
+  string eventId = 6;
+  string stream = 7;
+  uint32 offset = 8;
+}
+
+message PartReq {
+  string id = 9;
+  string lbj = 10;
+  Meta meta = 11;
+}
+
+message PartOK {
+  string part = 12;
+  string lbj = 13;
+  Meta meta = 14;
+}
+
+message Pos {
+  string position = 15;
+  string part = 16;
+  string lbj = 17;
+  Meta meta = 18;
+}
+
+message ClosingTime {
+  string timeOfDay = 19;
+  string lbj = 20;
+  Meta meta = 21;
+}

@@ -43,7 +43,10 @@ lazy val core =
       name := "core",
       commonSettings,
       scalacOptions ++= commonScalacOptions ++ Seq("Xcheck-macros"),
-      assembly / assemblyJarName := "joinActors.jar"
+      assembly / assemblyJarName := "joinActors.jar",
+      Compile / PB.targets := Seq(
+        scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
+      )
     )
 
 lazy val benchmarks =
