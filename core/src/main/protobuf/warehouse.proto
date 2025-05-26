@@ -16,6 +16,15 @@ package warehouse_messages;
     "offset": 11
 }*/
 
+message Msg {
+  oneof kind {
+    PartReq partReq = 1;
+    PartOK partOK = 2;
+    Pos pos = 3;
+    ClosingTime closingTime = 4;
+  }
+}
+
 message Meta {
   bool isLocalEvent = 1;
   repeated string tags = 2;
@@ -28,26 +37,26 @@ message Meta {
 }
 
 message PartReq {
-  string id = 9;
-  string lbj = 10;
-  Meta meta = 11;
+  string partName = 1;
+  string lbj = 2;
+  Meta meta = 3;
 }
 
 message PartOK {
-  string part = 12;
-  string lbj = 13;
-  Meta meta = 14;
+  string partName = 1;
+  string lbj = 2;
+  Meta meta = 3;
 }
 
 message Pos {
-  string position = 15;
-  string part = 16;
-  string lbj = 17;
-  Meta meta = 18;
+  string position = 1;
+  string partName = 2;
+  string lbj = 3;
+  Meta meta = 4;
 }
 
 message ClosingTime {
-  string timeOfDay = 19;
-  string lbj = 20;
-  Meta meta = 21;
+  string timeOfDay = 1;
+  string lbj = 2;
+  Meta meta = 3;
 }

@@ -7,6 +7,7 @@ import join_patterns.MatchingAlgorithm.BruteForceAlgorithm
 import join_patterns.MatchingAlgorithm.StatefulTreeBasedAlgorithm
 import join_patterns.examples.*
 import join_patterns.examples.factory_simpl.runFactorySimple
+import join_patterns.examples.warehouse_monitor.runWarehouseMonitor
 import mainargs.Flag
 import mainargs.ParserForClass
 import mainargs.ParserForMethods
@@ -112,6 +113,13 @@ object Main:
       algorithm: MatchingAlgorithm
   ) =
     runFactorySimple(algorithm)
+
+  @main
+  def warehouseMonitor(
+      @arg(doc = "The join pattern matching algorithm to use")
+      algorithm: MatchingAlgorithm
+  ) =
+    runWarehouseMonitor(algorithm)
 
   def main(args: Array[String]): Unit =
     ParserForMethods(this).runOrExit(args)
