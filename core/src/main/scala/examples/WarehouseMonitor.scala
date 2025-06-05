@@ -63,6 +63,9 @@ def monitor(algorithm: MatchingAlgorithm) =
           println(
             s"${Console.BLUE}${Console.UNDERLINED}Matched messages: PartReq(id = $part1, ...), Pos(position = $position, id = $part2, ...), PartOK(id = $part3, ...)${Console.RESET}\n"
           )
+          printMetaInner(meta1)
+          printMetaInner(meta2)
+          printMetaInner(meta3)
           println(
             s"\n========================= ${Console.BLUE}${Console.UNDERLINED}Join Pattern 01${Console.RESET} ========================="
           )
@@ -74,6 +77,9 @@ def monitor(algorithm: MatchingAlgorithm) =
           println(
             s"${Console.YELLOW}${Console.UNDERLINED}Matched messages: PartReq(id = $part1, ...), PartReq(position = $position, id = $part2, ...), PartOK(id = $part3, ...)${Console.RESET}\n"
           )
+          printMetaInner(meta1)
+          printMetaInner(meta2)
+          printMetaInner(meta3)
           println(
             s"\n========================= ${Console.YELLOW}${Console.UNDERLINED}Join Pattern 02${Console.RESET} ========================="
           )
@@ -82,6 +88,7 @@ def monitor(algorithm: MatchingAlgorithm) =
           println(
             s"${Console.RED}${Console.UNDERLINED}Matched messages: ClosingTime(timeOfDay = $time, ...)${Console.RESET}\n"
           )
+          printMetaInner(meta)
           println(
             s"${Console.RED}${Console.UNDERLINED}Shutting down monitor actor...${Console.RESET}"
           )
@@ -97,6 +104,18 @@ def extractMsg(msg: Msg): Option[Event] = msg.kind match {
     case Msg.Kind.ClosingTime(closingTime) => Some(closingTime)
     case _ => None
   }
+
+def printMeta(e: Event) = e match {
+  case PartReq(partName, lbj, meta, unknownFields) => printMetaInner(meta)
+  case PartOK(partName, lbj, meta, unknownFields) => printMetaInner(meta)
+  case Pos(position, partName, lbj, meta, unknownFields) => printMetaInner(meta)
+  case ClosingTime(timeOfDay, lbj, meta, unknownFields) => printMetaInner(meta)
+}
+
+def printMetaInner(meta: Option[Meta]) = meta match {
+  case Some(value) => println(s"Offset: ${value.offset} Timestamp: ${value.lamport}. eventID: ${value.eventId}")
+  case None => ()
+}
 
 def runWarehouseMonitor(algorithm: MatchingAlgorithm) =
   val (monitorFut, monitorRef) = monitor(algorithm).start()
